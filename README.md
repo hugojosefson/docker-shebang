@@ -89,6 +89,8 @@ See also [node-example-with-dependencies.js](./node-example-with-dependencies.js
 
 ### Python
                    
+With this header, you can set `PYTHON_VERSION` to any of the available tags: https://hub.docker.com/_/python
+
 Paste this at the beginning of your `.py` script file:
 
 ```python
