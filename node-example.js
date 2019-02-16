@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 /** 2>/dev/null
 
  NODE_VERSION=lts

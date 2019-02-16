@@ -1,6 +1,6 @@
 # docker-shebang
 
-Run any self-contained single-file script, with any interpreter from the Docker ecosystem. Only Docker and Bash are required to be locally installed.
+Run any self-contained single-file script, with any interpreter from the Docker ecosystem. Only Docker and `sh` are required to be locally installed.
 
 No extra file to install. Just choose an example header below, to paste at the top of your script file. Each of your script files will be fully self-contained.
 
@@ -11,17 +11,17 @@ expected.
 
 Remember to make each of your scripts executable:
 
-```bash
+```sh
 chmod +x your-script.js
 chmod +x your-script.py
 ```
 
 Then just run the script:
 
-```bash
+```sh
 ./your-script.js
 ```
-```bash
+```sh
 ./your-script.py
 ```
 
@@ -32,7 +32,7 @@ With this header, you can set `NODE_VERSION` to any of the available tags: https
 Paste this at the beginning of your `.js` script file:
 
 ```js
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 /** 2>/dev/null
 
  NODE_VERSION=lts
@@ -60,7 +60,7 @@ time your script is run.
 Paste this at the beginning of your `.js` script file, and edit the `dependencies` to your needs:
 
 ```js
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 /** 2>/dev/null
 
  NODE_VERSION=lts
