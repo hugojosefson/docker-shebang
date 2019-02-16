@@ -6,7 +6,7 @@ PYTHON_VERSION=3
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
 
-s="$(readlink -f "$0")";docker run --rm -i --init -w "$(dirname "$s")" -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} python:${PYTHON_VERSION} python -tt "$s" "$@";exit $?
+s="$(readlink -f "$0")";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -w "$(dirname "$s")" -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} python:${PYTHON_VERSION} python -tt "$s" "$@";exit $?
 
 This single-file script runner via Docker:
 https://github.com/hugojosefson/docker-shebang
@@ -22,3 +22,8 @@ print("The arguments are: ", str(sys.argv))
 print("Current directory contains:")
 for name in os.listdir('.'):
   print("  " + name)
+
+## Uncomment to read from stdin:
+# print("stdin says:")
+# for line in sys.stdin:
+#    print("  " + line.rstrip('\n'))

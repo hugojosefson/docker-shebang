@@ -7,7 +7,7 @@
  # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
  # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
 
- cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} node - "$0" "$@";exit $?
+ s="$(readlink -f "${0}.docker-shebang.js")";awk "x==1{print}/\*\/$/{x=1}" "$0">"$s";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} node "$s" "$0" "$@";e=$?;rm -- "$s";exit $e
 
  This single-file script runner via Docker:
  https://github.com/hugojosefson/docker-shebang
@@ -27,3 +27,16 @@ console.log(`I was called with arguments:\n${listOfArgs}`)
 
 console.log()
 console.log(`Current directory contains: ${JSON.stringify(require('fs').readdirSync(__dirname), null, 2)}`)
+
+// // Uncomment to read from stdin:
+// console.log()
+// console.log('stdin says: ')
+// process.stdin.setEncoding('utf8');
+// process.stdin.on('readable', () => {
+//   let chunk; while ((chunk = process.stdin.read()) !== null) {
+//     process.stdout.write(`data: ${chunk}`);
+//   }
+// });
+// process.stdin.on('end', () => {
+//   process.stdout.write('end');
+// });
