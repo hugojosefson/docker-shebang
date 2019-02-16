@@ -1,6 +1,8 @@
 # docker-shebang
 
-Run any self-contained single-file script using any interpreter, just as long as Docker is installed on the machine.
+Run any self-contained single-file script using any interpreter from the Docker ecosystem. Only Docker and Bash are required to be locally installed.
+
+No extra file to install. Just choose an example header below, to paste at the top of your script file. Each of your script files will be fully self-contained.
 
 These examples don't have access to your file system, but `stdin`, `stdout`, `stderr` and exit codes should work as
 expected.
