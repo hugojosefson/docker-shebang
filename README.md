@@ -5,18 +5,27 @@ Run any self-contained single-file script using any interpreter, just as long as
 These examples don't have access to your file system, but `stdin`, `stdout`, `stderr` and exit codes should work as
 expected.
 
-## Example usage
+## Usage
 
-For all examples, remember to make each script executable:
+Remember to make each of your scripts executable:
 
 ```bash
 chmod +x your-script.js
 chmod +x your-script.py
 ```
 
+Then just run the script:
+
+```bash
+./your-script.js
+```
+```bash
+./your-script.py
+```
+
 ### Node.js
 
-With this example, you can set `NODE_VERSION` to any of the available tags: https://hub.docker.com/_/node
+With this header, you can set `NODE_VERSION` to any of the available tags: https://hub.docker.com/_/node
                    
 Paste this at the beginning of your `.js` script file:
 
@@ -43,7 +52,7 @@ See also [node-example.js](./node-example.js) for the full example, with code.
 
 ### Node.js with npm dependencies
 
-With this example, you can also specify the contents of a `package.json`, which will be installed inside Docker each
+With this header, you can also specify the contents of a `package.json`, which will be installed inside Docker each
 time your script is run.
                    
 Paste this at the beginning of your `.js` script file, and edit the `dependencies` to your needs:
@@ -56,7 +65,10 @@ Paste this at the beginning of your `.js` script file, and edit the `dependencie
 
  PACKAGE_JSON='{
    "dependencies": {
-1
+   
+     // -=> [ YOUR DEPS ] <=- \\
+     // -=> [  GO HERE  ] <=- \\
+     
    }
  }'
 
@@ -68,7 +80,7 @@ Paste this at the beginning of your `.js` script file, and edit the `dependencie
 process.argv.splice(1, 1) // Fixes arguments to be as expected.
 
 ///////////////////////////////////////////////////////////////////////////////
-////  YOUR JS CODE BEGINS:
+////  YOUR JS CODE BEGINS HERE:
 ///////////////////////////////////////////////////////////////////////////////
 
 ```
