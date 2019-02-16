@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
-function noop() {
-    return
-}
+``/** 2>/dev/null
+NODE_VERSION=lts
+cat "$0"|awk "x==1{print}/^\/{40}/{x=1}"|docker run --rm -i --init node:${NODE_VERSION} node - "$0" "$@";exit $?
 
-noop /*
-cat "$0"|awk "x==1{print}/^\*\//{x=1}"|docker run --rm -i --init node node - "$0" "$@";exit $?;
-
-Single-file script runner via docker:
+This single-file script runner via Docker:
 https://github.com/hugojosefson/docker-shebang
 */
 process.argv.splice(1, 1) // Fixes arguments to be as expected.
 
 ///////////////////////////////////////////////////////////////////////////////
-////  BEGIN YOUR SCRIPT HERE
+////  YOUR JS CODE BEGINS:
 ///////////////////////////////////////////////////////////////////////////////
 
 console.log('Hello world.')
