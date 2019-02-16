@@ -4,7 +4,6 @@
  NODE_VERSION=lts
 
  PACKAGE_JSON='{
-   "name": "docker-shebang-runner",
    "dependencies": {
      "yargs": "13.2.0"
    }
