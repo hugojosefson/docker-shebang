@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-#!node:lts
-THIS_FILE="${THIS_FILE:-${0}}"
-SECOND_LINE=$(head -n +2 "${THIS_FILE}" | tail -n 1)
-IMAGE="${SECOND_LINE#\#!}"
-cat "${THIS_FILE}" | tail -n +8 | docker run --rm -i ${IMAGE}; exit $?
-console.log('hello world')
