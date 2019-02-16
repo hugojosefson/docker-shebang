@@ -3,7 +3,11 @@
 
  NODE_VERSION=lts
 
- cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init node:${NODE_VERSION} node - "$0" "$@";exit $?
+ ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+ cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} node - "$0" "$@";exit $?
 
  This single-file script runner via Docker:
  https://github.com/hugojosefson/docker-shebang
@@ -20,3 +24,6 @@ const listOfArgs = process.argv
 
 console.log('Hello world.')
 console.log(`I was called with arguments:\n${listOfArgs}`)
+
+console.log()
+console.log(`Current directory contains: ${JSON.stringify(require('fs').readdirSync(__dirname), null, 2)}`)

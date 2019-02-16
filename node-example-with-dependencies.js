@@ -9,7 +9,11 @@
    }
  }'
 
- yn="$(readlink -f "${0}.yarn-and-node")";echo 'yarn >/dev/null 2>&1;[ $? = 0 ] && exec node "$@";e=$?;cat yarn-error.log>&2;exit $e'>"$yn";p="$(readlink -f "${0}.package.json")";echo "${PACKAGE_JSON}">"$p";cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init -w /app -v "$p":/app/package.json:ro -v "$yn":/app/yarn-and-node:ro node:${NODE_VERSION} sh yarn-and-node - "$0" "$@";e=$?;rm "$p";rm "$yn";exit $e
+ ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+ yn="$(readlink -f "${0}.yarn-and-node")";echo '(cd /tmp;yarn>/dev/null 2>&1;[ $? = 0 ]) && exec node "$@";e=$?;cat yarn-error.log>&2;exit $e'>"$yn";p="$(readlink -f "${0}.package.json")";echo "${PACKAGE_JSON}">"$p";cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init -v "$p":/tmp/package.json:ro -v "$yn":/yarn-and-node:ro -e NODE_PATH=/tmp/node_modules ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} sh /yarn-and-node - "$0" "$@";e=$?;rm "$p";rm "$yn";exit $e
 
  This single-file script runner via Docker:
  https://github.com/hugojosefson/docker-shebang
@@ -32,3 +36,6 @@ console.log()
 console.log(`require('yargs') returns a ${typeof yargs}.`)
 console.log(`require('yargs').argv is an ${typeof yargs.argv}.`)
 console.log(`require('yargs').argv contains ${JSON.stringify(yargs.argv, null, 2)}`)
+
+console.log()
+console.log(`Current directory contains: ${JSON.stringify(require('fs').readdirSync(__dirname), null, 2)}`)

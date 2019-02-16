@@ -1,11 +1,15 @@
 # docker-shebang
 
-Run any self-contained single-file script, with any interpreter from the Docker ecosystem. Only Docker and `sh` are required to be locally installed.
+Run any self-contained single-file script, with any interpreter from the Docker ecosystem. Only Docker and `sh` are
+required to be locally installed.
 
-No extra file to install. Just choose an example header below, to paste at the top of your script file. Each of your script files will be fully self-contained.
+No extra file to install. Just choose an example header below, to paste at the top of your script file. Each of your
+script files will be fully self-contained.
 
-These examples don't have access to your file system, but `stdin`, `stdout`, `stderr` and exit codes should work as
-expected.
+These examples don't have access to your file system by default. You can enable files by un-commenting one of the
+`DOCKER_EXTRA_ARGS` lines, for read-only or read-write file access.
+
+Exit codes, `stdin`, `stdout` and `stderr` should still work as expected, so you can always pipe data in and out!
 
 ## Usage
 
@@ -37,7 +41,11 @@ Paste this at the beginning of your `.js` script file:
 
  NODE_VERSION=lts
 
- cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init node:${NODE_VERSION} node - "$0" "$@";exit $?
+ ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+ cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} node - "$0" "$@";exit $?
 
  This single-file script runner via Docker:
  https://github.com/hugojosefson/docker-shebang
@@ -74,7 +82,11 @@ Paste this at the beginning of your `.js` script file, and edit the `dependencie
    }
  }'
 
- yn="$(readlink -f "${0}.yarn-and-node")";echo 'yarn >/dev/null 2>&1;[ $? = 0 ] && exec node "$@";e=$?;cat yarn-error.log>&2;exit $e'>"$yn";p="$(readlink -f "${0}.package.json")";echo "${PACKAGE_JSON}">"$p";cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init -w /app -v "$p":/app/package.json:ro -v "$yn":/app/yarn-and-node:ro node:${NODE_VERSION} sh yarn-and-node - "$0" "$@";e=$?;rm "$p";rm "$yn";exit $e
+ ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+ # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+ yn="$(readlink -f "${0}.yarn-and-node")";echo '(cd /tmp;yarn>/dev/null 2>&1;[ $? = 0 ]) && exec node "$@";e=$?;cat yarn-error.log>&2;exit $e'>"$yn";p="$(readlink -f "${0}.package.json")";echo "${PACKAGE_JSON}">"$p";cat "$0"|awk "x==1{print}/\*\/$/{x=1}"|docker run --rm -i --init -v "$p":/tmp/package.json:ro -v "$yn":/yarn-and-node:ro -e NODE_PATH=/tmp/node_modules ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} sh /yarn-and-node - "$0" "$@";e=$?;rm "$p";rm "$yn";exit $e
 
  This single-file script runner via Docker:
  https://github.com/hugojosefson/docker-shebang
@@ -100,7 +112,11 @@ Paste this at the beginning of your `.py` script file:
 ''':'
 PYTHON_VERSION=3
 
-s="$(readlink -f "$0")";docker run --rm -i --init -w "$(dirname "$s")" -v "$s":"$s":ro python:${PYTHON_VERSION} python -tt "$s" "$@";exit $?
+## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+s="$(readlink -f "$0")";docker run --rm -i --init -w "$(dirname "$s")" -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} python:${PYTHON_VERSION} python -tt "$s" "$@";exit $?
 
 This single-file script runner via Docker:
 https://github.com/hugojosefson/docker-shebang
