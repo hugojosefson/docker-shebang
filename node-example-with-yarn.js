@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-``
 /** 2>/dev/null
 
  NODE_VERSION=lts
@@ -7,7 +6,7 @@
  PACKAGE_JSON='{
    "name": "docker-shebang-runner",
    "dependencies": {
-     "yargs": "*"
+     "yargs": "13.2.0"
    }
  }'
 
@@ -22,11 +21,15 @@ process.argv.splice(1, 1) // Fixes arguments to be as expected.
 ////  YOUR JS CODE BEGINS:
 ///////////////////////////////////////////////////////////////////////////////
 
-console.log('Hello world.')
-console.log(`require('yargs') returns a ${typeof require('yargs')}.`)
-console.log(`
-I was called with arguments:
-${process.argv.map((arg, index) => `  $${index}: ${JSON.stringify(arg)}`)}
-`)
+const listOfArgs = process.argv
+  .map((arg, index) => `  process.argv[${index}]=${JSON.stringify(arg)}`)
+  .join('\n')
 
-process.exit(process.argv.length)
+console.log('Hello world.')
+console.log(`I was called with arguments:\n${listOfArgs}`)
+
+const yargs = require('yargs')
+console.log()
+console.log(`require('yargs') returns a ${typeof yargs}.`)
+console.log(`require('yargs').argv is an ${typeof yargs.argv}.`)
+console.log(`require('yargs').argv contains ${JSON.stringify(yargs.argv, null, 2)}`)
