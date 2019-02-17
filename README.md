@@ -11,6 +11,7 @@ This page has examples for:
   * [Node.js](#nodejs)
   * [Node.js with dependencies](#nodejs-with-npm-dependencies)
   * [Python](#python)
+  * [Go (golang)](#go)
 
 These examples don't have access to your file system by default. You can enable files by un-commenting one of the
 `DOCKER_EXTRA_ARGS` lines, for read-only or read-write file access.
@@ -122,3 +123,27 @@ https://github.com/hugojosefson/docker-shebang
 ```
 
 See also [python-example.py](./python-example.py) for the full example, with code.
+
+### Go
+
+With this header, you can set `GOLANG_VERSION` to any of the available tags: https://hub.docker.com/_/golang
+
+Paste this shebang line and comment at the beginning of your `.go` script file:
+
+```golang
+#!/usr/bin/env sh
+/* 2>/dev/null
+
+GOLANG_VERSION=alpine
+
+## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+s="$(readlink -f "$0")";ss="${s}.docker-shebang.go";awk "x==1{print}/\*\/$/{x=1}" "$0">"$ss";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$ss":"$s":ro ${DOCKER_EXTRA_ARGS} golang:${GOLANG_VERSION} go run "$s" "$@";e=$?;rm -- "$ss";exit $e
+
+This self-contained script runner for Docker via:
+https://github.com/hugojosefson/docker-shebang
+*/
+
+```
