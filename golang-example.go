@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 /* 2>/dev/null
 
-GOLANG_VERSION=alpine
+DOCKER_IMAGE=golang:alpine
 
 ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
 
-s="$(readlink -f "$0")";ss="${s}.docker-shebang.go";awk "x==1{print}/\*\/$/{x=1}" "$0">"$ss";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$ss":"$s":ro ${DOCKER_EXTRA_ARGS} golang:${GOLANG_VERSION} go run "$s" "$@";e=$?;rm -- "$ss";exit $e
+s="$(readlink -f "$0")";ss="${s}.docker-shebang.go";awk "x==1{print}/\*\/$/{x=1}" "$0">"$ss";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$ss":"$s":ro ${DOCKER_EXTRA_ARGS} ${DOCKER_IMAGE} go run "$s" "$@";e=$?;rm -- "$ss";exit $e
 
 This self-contained script runner for Docker via:
 https://github.com/hugojosefson/docker-shebang
