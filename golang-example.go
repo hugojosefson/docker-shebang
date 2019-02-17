@@ -19,7 +19,7 @@ import "os"
 import "fmt"
 
 func main() {
-    fmt.Println("Hello world.")
-    fmt.Println("I was called with arguments:")
-    fmt.Printf("%#v\n", os.Args)
+  fmt.Println("Hello world.")
+  fmt.Println("I was called with arguments:")
+  fmt.Printf("%#v\n", os.Args)
 }
