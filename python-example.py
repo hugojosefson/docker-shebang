@@ -8,7 +8,7 @@ PYTHON_VERSION=3
 
 s="$(readlink -f "$0")";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -w "$(dirname "$s")" -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} python:${PYTHON_VERSION} python -tt "$s" "$@";exit $?
 
-This single-file script runner via Docker:
+This self-contained script runner for Docker via:
 https://github.com/hugojosefson/docker-shebang
 '''
 

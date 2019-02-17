@@ -9,7 +9,7 @@
 
  s="$(readlink -f "$0")";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$s":"$s":ro ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} node "$s" "$@";exit $?
 
- This single-file script runner via Docker:
+ This self-contained script runner for Docker via:
  https://github.com/hugojosefson/docker-shebang
  */
 

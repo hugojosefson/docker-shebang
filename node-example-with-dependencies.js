@@ -15,7 +15,7 @@
 
  s="$(readlink -f "$0")";yn="${s}.yarn-and-node";echo '(cd /tmp;yarn>/dev/null 2>&1;[ $? = 0 ]) && exec node "$@";e=$?;cat yarn-error.log>&2;exit $e'>"$yn";p="${s}.package.json";echo "${PACKAGE_JSON}">"$p";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$s":"$s":ro -v "$yn":/yarn-and-node:ro -v "$p":/tmp/package.json:ro -e NODE_PATH=/tmp/node_modules ${DOCKER_EXTRA_ARGS} node:${NODE_VERSION} sh /yarn-and-node "$s" "$@";e=$?;rm -- "$yn" "$p";exit $e
 
- This single-file script runner via Docker:
+ This self-contained script runner for Docker via:
  https://github.com/hugojosefson/docker-shebang
  */
 
