@@ -1,10 +1,16 @@
 # docker-shebang
 
 Run any self-contained single-file script, with any interpreter from the Docker ecosystem. Only Docker and `sh` are
-required to be locally installed.
+required to be installed locally.
 
-No extra file to install. Simply choose an example shebang+comment below, to paste at the top of your script file. Your
-script file will be fully self-contained!
+No extra file nor runtime to install, besides Docker. Simply choose an example shebang+comment below, to paste at the
+top of your script. Your script file will be fully self-contained!
+
+This page has examples for:
+
+  * [Node.js](#nodejs)
+  * [Node.js with dependencies](#nodejs-with-npm-dependencies)
+  * [Python](#python)
 
 These examples don't have access to your file system by default. You can enable files by un-commenting one of the
 `DOCKER_EXTRA_ARGS` lines, for read-only or read-write file access.
