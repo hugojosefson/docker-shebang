@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 /** 2>/dev/null
-
  DOCKER_IMAGE=node:lts
 
  PACKAGE_JSON='{

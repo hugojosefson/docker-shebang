@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 /** 2>/dev/null
-
  DOCKER_IMAGE=node:lts
 
  ## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
