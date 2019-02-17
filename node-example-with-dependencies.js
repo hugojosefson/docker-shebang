@@ -1,10 +1,11 @@
 #!/usr/bin/env sh
 /* 2>/dev/null
 DOCKER_IMAGE=node:lts
-DOCKER_CMD="node"
+DOCKER_CMD="node -r esm"
 
 PACKAGE_JSON='{
  "dependencies": {
+   "esm": "3.2.5",
    "yargs": "13.2.0"
  }
 }'
@@ -19,6 +20,8 @@ This self-contained script runner for Docker via:
 https://github.com/hugojosefson/docker-shebang
 */
 
+import yargs from 'yargs'
+
 const listOfArgs = process.argv
   .map((arg, index) => `  process.argv[${index}]=${JSON.stringify(arg)}`)
   .join('\n')
@@ -26,11 +29,10 @@ const listOfArgs = process.argv
 console.log('Hello world.')
 console.log(`I was called with arguments:\n${listOfArgs}`)
 
-const yargs = require('yargs')
 console.log()
-console.log(`require('yargs') returns a ${typeof yargs}.`)
-console.log(`require('yargs').argv is an ${typeof yargs.argv}.`)
-console.log(`require('yargs').argv contains ${JSON.stringify(yargs.argv, null, 2)}`)
+console.log(`import yargs from 'yargs', sets yargs to a ${typeof yargs}.`)
+console.log(`yargs.argv is an ${typeof yargs.argv}.`)
+console.log(`yargs.argv contains ${JSON.stringify(yargs.argv, null, 2)}`)
 
 console.log()
 console.log(`Current directory contains: ${JSON.stringify(require('fs').readdirSync(__dirname), null, 2)}`)
