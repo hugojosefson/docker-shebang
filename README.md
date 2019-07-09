@@ -39,7 +39,7 @@ Then just run the script:
 
 ### Node.js
 
-You can set `DOCKER_IMAGE` to any compatible Docker image with `node`. Suggested: https://hub.docker.com/_/node
+You can set `DOCKER_IMAGE` to any compatible Docker image with `node`. Suggested: [node](https://hub.docker.com/_/node).
                    
 Paste this shebang line and comment at the beginning of your `.js` script file:
 
@@ -65,7 +65,7 @@ See also [node-example.js](./node-example.js) for the full example, with code.
 
 ### Node.js with npm dependencies
 
-You can set `DOCKER_IMAGE` to any compatible Docker image with `node`. Suggested: https://hub.docker.com/_/node
+You can set `DOCKER_IMAGE` to any compatible Docker image with `node`. Suggested: [node](https://hub.docker.com/_/node).
 
 You can also specify the contents of a `package.json`, which will be installed inside Docker each time your script is
 run.
@@ -104,7 +104,7 @@ See also [node-example-with-dependencies.js](./node-example-with-dependencies.js
 
 ### Python
                    
-You can set `DOCKER_IMAGE` to any compatible Docker image with `python`. Suggested: https://hub.docker.com/_/python
+You can set `DOCKER_IMAGE` to any compatible Docker image with `python`. Suggested: [python](https://hub.docker.com/_/python).
 
 Paste this shebang line and string literal at the beginning of your `.py` script file:
 
@@ -130,7 +130,7 @@ See also [python-example.py](./python-example.py) for the full example, with cod
 
 ### Go
 
-You can set `DOCKER_IMAGE` to any compatible Docker image with `go`. Suggested: https://hub.docker.com/_/golang
+You can set `DOCKER_IMAGE` to any compatible Docker image with `go`. Suggested: [golang](https://hub.docker.com/_/golang).
 
 Paste this shebang line and comment at the beginning of your `.go` script file:
 
@@ -157,7 +157,7 @@ See also [golang-example.go](./golang-example.go) for the full example, with cod
 
 ### Rust
 
-You can set `DOCKER_IMAGE` to any compatible Docker image with `cargo`. Suggested: https://hub.docker.com/_/rust
+You can set `DOCKER_IMAGE` to any compatible Docker image with `cargo`. Suggested: [rust](https://hub.docker.com/_/rust).
 
 Paste this shebang line and comment at the beginning of your `.rs` script file:
 
