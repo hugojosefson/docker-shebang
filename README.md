@@ -150,3 +150,6 @@ https://github.com/hugojosefson/docker-shebang
 */
 
 ```
+
+See also [golang-example.go](./golang-example.go) for the full example, with code.
+
