@@ -12,6 +12,7 @@ This page has examples for:
   * [Node.js with dependencies](#nodejs-with-npm-dependencies)
   * [Python](#python)
   * [Go (golang)](#go)
+  * [Rust](#rust)
 
 These examples don't have access to your file system by default. You can enable files by un-commenting one of the
 `DOCKER_EXTRA_ARGS` lines, for read-only or read-write file access.
@@ -153,3 +154,29 @@ https://github.com/hugojosefson/docker-shebang
 
 See also [golang-example.go](./golang-example.go) for the full example, with code.
 
+
+### Rust
+
+You can set `DOCKER_IMAGE` to any compatible Docker image with `cargo`. Suggested: https://hub.docker.com/_/rust
+
+Paste this shebang line and comment at the beginning of your `.rs` script file:
+
+```rust
+#!/usr/bin/env sh
+/* 2>/dev/null
+DOCKER_IMAGE=rust:1
+ARGS="$@"
+
+## Optionally, un-comment one of these lines to give access to current directory, read-only or read-write:
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
+# DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
+
+s="$(readlink -f "$0")";ss="${s}.docker-shebang.rs";awk "x==1{print}/\*\/$/{x=1}" "$0">"$ss";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) -v "$ss":"/main.rs":ro --init ${DOCKER_EXTRA_ARGS} ${DOCKER_IMAGE} sh -c "cd / && USER=root cargo new -q --bin app && cd app && cp ../main.rs src/ && cargo run -q --release -- ${ARGS}";e=$?;rm -- "$ss";exit $e
+
+This self-contained script runner for Docker via:
+https://github.com/hugojosefson/docker-shebang
+*/
+
+```
+
+See also [rust-example.rs](./rust-example.rs) for the full example, with code.
