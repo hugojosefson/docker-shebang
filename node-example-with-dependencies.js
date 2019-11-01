@@ -13,7 +13,7 @@ PACKAGE_JSON='{
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):ro"
 # DOCKER_EXTRA_ARGS="-w $(pwd) -u $(id -u):$(id -g) -v $(pwd):$(pwd):rw"
 
-s="$(readlink -f "$0")";yn="${s}.yarn-and-node";echo "(cd /tmp;yarn>/dev/null 2>&1;[ \$? = 0 ]) && exec ${DOCKER_CMD} \"\$@\";e=\$?;cat yarn-error.log>&2;exit \$e">"$yn";p="${s}.package.json";echo "${PACKAGE_JSON}">"$p";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo -n t) --init -v "$s":"$s":ro -v "$yn":/yarn-and-node:ro -v "$p":/tmp/package.json:ro -e NODE_PATH=/tmp/node_modules ${DOCKER_EXTRA_ARGS} ${DOCKER_IMAGE} sh /yarn-and-node "$s" "$@";e=$?;rm -- "$yn" "$p";exit $e
+s="$(readlink -f "$0")";yn="${s}.yarn-and-node";echo "(cd /tmp;yarn>/dev/null 2>&1;[ \$? = 0 ]) && exec ${DOCKER_CMD} \"\$@\";e=\$?;cat yarn-error.log>&2;exit \$e">"$yn";p="${s}.package.json";echo "${PACKAGE_JSON}">"$p";docker run --rm -a stdin -a stdout -a stderr -i$([ -t 0 ] && echo t) --init -v "$s":"$s":ro -v "$yn":/yarn-and-node:ro -v "$p":/tmp/package.json:ro -e NODE_PATH=/tmp/node_modules ${DOCKER_EXTRA_ARGS} ${DOCKER_IMAGE} sh /yarn-and-node "$s" "$@";e=$?;rm -- "$yn" "$p";exit $e
 
 This self-contained script runner for Docker via:
 https://github.com/hugojosefson/docker-shebang
